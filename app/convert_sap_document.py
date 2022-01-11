@@ -63,7 +63,7 @@ class ConvertSapDocument():
                 "DocCurrency":"CLP",
                 "DocRate":1,
                 "SalesPersonCode":1,
-                "ContactPersonCode":null,
+                "ContactPersonCode":"null",
                 "ShipToCode":"DESPACHO",
                 "Indicator":"39",
                 "FederalTaxID":"57909659-4",
@@ -90,4 +90,4 @@ class ConvertSapDocument():
                 "NumOfPayments":1
             }
         }
-        return json_sap_document
+        return data
