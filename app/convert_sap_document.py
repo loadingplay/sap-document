@@ -49,7 +49,7 @@ class ConvertSapDocument():
                         "Phone1":"56-57-2535017",
                         "E_Mail":"juan.toros@redsalud.gob.cl",
                         "FirstName":"Delia",
-                        "MiddleName":null,
+                        "MiddleName":"null",
                         "LastName":"TORO"
                     }
                 ]
