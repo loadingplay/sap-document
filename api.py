@@ -10,4 +10,3 @@ api = FastAPI()
 def mov_in(data: dict):
 
     return data
-
