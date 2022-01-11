@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+requests
+flake8
+pytest
+curlify
