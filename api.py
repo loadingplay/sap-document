@@ -8,6 +8,7 @@ api = FastAPI()
 
 @api.post("/v1/reception")
 def post_sap(data: dict):
+    logging.info(f"Data: {data}")
     json_data = ConvertSapDocument()
     data_converted = json_data.reception_data(data)
     logging.info(f"Data transformed: {data_converted}")
