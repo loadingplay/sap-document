@@ -146,6 +146,7 @@ class ConvertSapDocument():
                 json=self.join_json_sap(),
                 verify=False
             )
+            logging.info("sap responded to send sap: " + str(response.json()))
             return response.json()
         except Exception as ex:
             str_error = (
