@@ -14,6 +14,5 @@ def post_sap(data: dict):
     data_converted = json_data.join_json_sap()
     logging.info(f"Data transformed: {data_converted}")
     request_document = json_data.send_sap()
-    logging.info("sap responded: " + str(request_document))
     return request_document
 

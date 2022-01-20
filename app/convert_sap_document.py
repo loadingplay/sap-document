@@ -136,12 +136,9 @@ class ConvertSapDocument():
         return json_sap_document
 
     def send_sap(self):
-        # TODO: falta implementar metetodo que mande a sap}
-        # mientras tanto hay un mock
-        print(self.join_json_sap())
+
         try:
             response = requests.post(
-
                 "https://sbo-wildbrands.cloudseidor.com:4300/Wildbrands/Integracion/App.xsjs",
                 json=self.join_json_sap(),
                 verify=False
@@ -158,4 +155,3 @@ class ConvertSapDocument():
                 status_code=500,
                 detail="Error on post workflows"
             )
-        #return response.json()
