@@ -144,6 +144,7 @@ class ConvertSapDocument():
                 json=self.join_json_sap(),
                 verify=False
             )
+            return response.json()
         except Exception as ex:
             str_error = (
                 f"Error method: post endpoint /v1/generate_document"
@@ -154,4 +155,4 @@ class ConvertSapDocument():
                 status_code=500,
                 detail="Error on post workflows"
             )
-        return response.json()
+        #return response.json()
