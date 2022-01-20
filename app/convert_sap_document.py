@@ -18,15 +18,20 @@ class ConvertSapDocument():
         return json_user
 
     def get_sn(self):
-        config = self.__data["sap_json"]["config"]
         order = self.__data["order"]
 
+        FederalTaxID = self.__data["order"]["customer"]["rut"]
+
+        if FederalTaxID == "":
+            FederalTaxID = "66666666-6"
+
+
         json_sn = {
-            "CardCode": "C"+order["customer"]["rut"],
+            "CardCode": "C"+FederalTaxID,
             "CardName": order["customer"]["name"],
             "CardType": "cCustomer",
             "GroupCode": 100,
-            "FederalTaxID": order["customer"]["rut"],
+            "FederalTaxID": FederalTaxID,
             "EmailAddress": order["customer"]["email"],
             "CardForeignName":"SERVICIO DE SALUD IQUIQUE", # duda
             "ShipToDefault":"DESPACHO", # duda
@@ -89,12 +94,17 @@ class ConvertSapDocument():
     def get_order(self):
         order = self.__data["order"]
         config = self.__data["sap_json"]["config"]
+        FederalTaxID = self.__data["order"]["customer"]["rut"]
+
+        if FederalTaxID == "":
+            FederalTaxID = "66666666-6"
+
         json_order = {
             "U_SEI_IDPS": 1122, # duda
             "DocDate": order["date"],
             "DocDueDate": order["date"],
             "TaxDate": order["date"],
-            "CardCode": "C"+order["customer"]["rut"],
+            "CardCode": "C"+FederalTaxID,
             "DocCurrency": order["extra_info"]["currency"],
             "DocRate":1,
             "SalesPersonCode":1, # duda
