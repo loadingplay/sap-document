@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from app.convert_sap_document import ConvertSapDocument
 
 
+logging.getLogger().setLevel(logging.INFO)
 api = FastAPI()
 
 

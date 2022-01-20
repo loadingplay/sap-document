@@ -3,6 +3,8 @@ from fastapi import HTTPException
 import logging
 
 
+logging.getLogger().setLevel(logging.INFO)
+
 class ConvertSapDocument():
     def __init__(self, data) -> None:
         self.__data = data
