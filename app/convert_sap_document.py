@@ -100,7 +100,7 @@ class ConvertSapDocument():
             FederalTaxID = "66666666-6"
 
         json_order = {
-            "U_SEI_IDPS": 1122, # duda
+            "U_SEI_IDPS": config["site_name"] +"-"+ order["extra_info"]["name"],
             "DocDate": order["date"],
             "DocDueDate": order["date"],
             "TaxDate": order["date"],
