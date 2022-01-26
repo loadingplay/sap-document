@@ -78,13 +78,20 @@ class ConvertSapDocument():
         return json_sn
 
     def get_products(self):
+
         products = self.__data["order"]["products"]
+
+        if self.__data["order"]["shipping"]:
+            products.append({
+                "sku": "envio",
+                "quantity": 1,
+                "price": self.__data["order"]["shipping"]["cost"]
+                })
         json_product= []
 
         for item in products:
             json_product.append({
-                "CostingCode": "CC01",
-                "ItemCode": item["id"],
+                "ItemCode": item["sku"],
                 "TaxCode":"IVA",
                 "Quantity": item["quantity"],
                 "Price": item["price"]
