@@ -23,7 +23,7 @@ class ConvertSapDocument():
         FederalTaxID = self.__data["order"]["customer"]["rut"]
 
         if FederalTaxID == "":
-            FederalTaxID = "66666666-6"
+            FederalTaxID = "77777777-7C"
 
 
         json_sn = {
@@ -64,7 +64,7 @@ class ConvertSapDocument():
             ],
             "ContactEmployees":[ # nodo duda
                 {
-                    "Name": order["customer"]["name"]+" "+order["customer"]["last_name"],
+                    "Name": order["customer"]["name"]+"-"+order["customer"]["last_name"],
                     "Phone1": order["customer"]["telephone"],
                     "E_Mail": order["customer"]["email"],
                     "FirstName": order["customer"]["name"],
@@ -78,13 +78,21 @@ class ConvertSapDocument():
         return json_sn
 
     def get_products(self):
+        products=[]
         products = self.__data["order"]["products"]
+        
+        if self.__data["order"]["shipping"]:
+            products.append({
+                "sku": "envio",
+                "quantity": 1,
+                "price": self.__data["order"]["shipping"]["cost"]
+                })
         json_product= []
 
         for item in products:
             json_product.append({
                 "CostingCode": "CC01",
-                "ItemCode": item["id"],
+                "ItemCode": item["sku"],
                 "TaxCode":"IVA",
                 "Quantity": item["quantity"],
                 "Price": item["price"]
@@ -97,7 +105,7 @@ class ConvertSapDocument():
         FederalTaxID = self.__data["order"]["customer"]["rut"]
 
         if FederalTaxID == "":
-            FederalTaxID = "66666666-6"
+            FederalTaxID = "77777777-7C"
 
         json_order = {
             "U_SEI_IDPS": config["site_name"] +"-"+ order["extra_info"]["name"],
