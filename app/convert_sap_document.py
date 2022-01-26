@@ -159,7 +159,6 @@ class ConvertSapDocument():
             response = requests.post(
                 "https://sbo-wildbrands.cloudseidor.com:4300/Wildbrands/Integracion/App.xsjs",
                 json=self.join_json_sap(),
-                verify=False
             )
             logging.info("sap responded to send sap: " + str(response.json()))
             return response.json()
