@@ -23,11 +23,11 @@ class ConvertSapDocument():
         FederalTaxID = self.__data["order"]["customer"]["rut"]
 
         if FederalTaxID == "":
-            FederalTaxID = "77777777-7C"
+            FederalTaxID = "66666666-6"
 
 
         json_sn = {
-            "CardCode": "C"+FederalTaxID,
+            "CardCode": "C77777777-7C",
             "CardName": order["customer"]["name"],
             "CardType": "cCustomer",
             "GroupCode": 100,
@@ -124,7 +124,6 @@ class ConvertSapDocument():
     def get_pago(self):
 
         json_pago = {
-
             "CreditCard":1,
             "CreditCardNumber":"6789",
             "CardValidUntil":"2022-12-31",
