@@ -23,7 +23,7 @@ class ConvertSapDocument():
         FederalTaxID = self.__data["order"]["customer"]["rut"]
 
         if FederalTaxID == "":
-            FederalTaxID = "66666666-6"
+            FederalTaxID = "77777777-7C"
 
 
         json_sn = {
@@ -150,8 +150,7 @@ class ConvertSapDocument():
         try:
             response = requests.post(
                 "https://sbo-wildbrands.cloudseidor.com:4300/Wildbrands/Integracion/App.xsjs",
-                json=self.join_json_sap(),
-                verify=False
+                json=self.join_json_sap()
             )
             logging.info("sap responded to send sap: " + str(response.json()))
             return response.json()
