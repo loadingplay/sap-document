@@ -23,7 +23,7 @@ class ConvertSapDocument():
         FederalTaxID = self.__data["order"]["customer"]["rut"]
 
         if FederalTaxID == "":
-            FederalTaxID = "66666666-6"
+            FederalTaxID = "77777777-7C"
 
 
         json_sn = {
@@ -104,7 +104,7 @@ class ConvertSapDocument():
         FederalTaxID = self.__data["order"]["customer"]["rut"]
 
         if FederalTaxID == "":
-            FederalTaxID = "66666666-6"
+            FederalTaxID = "77777777-7C"
 
         json_order = {
             "U_SEI_IDPS": config["site_name"] +"-"+ order["extra_info"]["name"],
