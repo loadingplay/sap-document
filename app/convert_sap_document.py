@@ -1,9 +1,14 @@
 import requests
 from fastapi import HTTPException
 import logging
+import json
+import os
 
 
 logging.getLogger().setLevel(logging.INFO)
+
+#LP_API = os.getenv('LP_API', '')
+LP_API = "https://apibodegas.ondev.today"
 
 class ConvertSapDocument():
     def __init__(self, data) -> None:
@@ -150,6 +155,53 @@ class ConvertSapDocument():
         }
 
         return json_sap_document
+
+    def validate_article_in_sap(self):
+        user = self.__data["sap_json"]["config"]
+        order = self.__data["order"]
+        credentials = {
+            "CompanyDB": "DESARROLLO2",
+            "Password": user["password"],
+            "UserName": user["username"],
+            "Language": "23"
+        }
+        products = self.get_products()
+        product_error = []
+        error_products = {}
+        for product in products:
+            article = product["ItemCode"]
+            response = requests.post(
+                f"https://sbo-wildbrands.cloudseidor.com:4300/Wildbrands/Integracion/ObtenerItems.xsjs?$select=ItemCode,ItemName,ForeignName&$filter=ItemCode eq '{article}'",
+                json=credentials
+            )
+            if len(response.json()) == 0:
+                product_error.append({
+                    "sku": article
+                })
+        cont = 0
+        for item in product_error:
+            cont = cont + 1
+            error_products[cont] = item["sku"]
+
+        product_not_found = {
+            "productos_no_encontrados": error_products
+        }
+        if len(product_error) == 0:
+            return self.send_sap()
+        else:
+            order_id = order["id"]
+            access_token = user["access_token_lp"]
+            error = json.dumps(product_error)
+            response = requests.put(
+                f"{LP_API}/v1/order/{order_id}",
+                headers={
+                    "Authorization": f"Bearer {access_token}"
+                },
+                params={
+                    'extra_info': json.dumps(product_not_found)
+                }
+            )
+            return self.send_sap()
 
     def send_sap(self):
 

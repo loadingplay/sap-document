@@ -13,6 +13,6 @@ def post_sap(data: dict):
     json_data = ConvertSapDocument(data)
     data_converted = json_data.join_json_sap()
     logging.info(f"Data transformed: {data_converted}")
-    request_document = json_data.send_sap()
+    request_document = json_data.validate_article_in_sap()
     return request_document
 
