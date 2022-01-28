@@ -184,7 +184,7 @@ class ConvertSapDocument():
             error_products[cont] = item["sku"]
 
         product_not_found = {
-            "productos_no_encontrados": error_products
+            "product_not_found": error_products
         }
         if len(product_error) == 0:
             return self.send_sap()
