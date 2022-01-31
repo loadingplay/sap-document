@@ -28,7 +28,7 @@ class ConvertSapDocument():
         FederalTaxID = self.__data["order"]["customer"]["rut"]
 
         if FederalTaxID == "":
-            FederalTaxID = "77777777-7"
+            FederalTaxID = "77777777-7C"
 
 
         json_sn = {
