@@ -48,8 +48,8 @@ class ConvertSapDocument():
                 {
                     "AddressName":"DESPACHO",
                     "Street": order["customer"]["address"],
-                    "City": order["customer"]["city"],
-                    "County": order["customer"]["country"],
+                    "City": order["customer"]["country"],
+                    "County": order["customer"]["city"],
                     "Country": "CL", # Por el momento dejarlo en duro
                     "State": "1",
                     "TaxCode": "IVA",
@@ -58,8 +58,8 @@ class ConvertSapDocument():
                 {
                     "AddressName":"FACTURACION",
                     "Street": order["customer"]["address"],
-                    "City": order["customer"]["city"],
-                    "County": order["customer"]["country"],
+                    "City": order["customer"]["country"],
+                    "County": order["customer"]["city"],
                     "Country": "CL", # Por el momento dejarlo en duro
                     "State": "1",
                     "TaxCode": "IVA",
