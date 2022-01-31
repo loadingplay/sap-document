@@ -1,9 +1,14 @@
 import requests
 from fastapi import HTTPException
 import logging
+import json
+import os
 
 
 logging.getLogger().setLevel(logging.INFO)
+
+#LP_API = os.getenv('LP_API', '')
+LP_API = "https://apibodegas.ondev.today"
 
 class ConvertSapDocument():
     def __init__(self, data) -> None:
@@ -23,7 +28,7 @@ class ConvertSapDocument():
         FederalTaxID = self.__data["order"]["customer"]["rut"]
 
         if FederalTaxID == "":
-            FederalTaxID = "66666666-6"
+            FederalTaxID = "77777777-7"
 
 
         json_sn = {
@@ -43,20 +48,20 @@ class ConvertSapDocument():
             "BPAddresses":[
                 {
                     "AddressName":"DESPACHO",
-                    "Street": "calle,",
+                    "Street": order["customer"]["address"],
                     "City": order["customer"]["city"],
                     "County": order["customer"]["country"],
-                    "Country": order["customer"]["zip_code"],
+                    "Country": "CL", # Por el momento dejarlo en duro
                     "State": "1",
                     "TaxCode": "IVA",
                     "AddressType":"bo_ShipTo"
                 },
                 {
                     "AddressName":"FACTURACION",
-                    "Street": "calle,",
+                    "Street": order["customer"]["address"],
                     "City": order["customer"]["city"],
                     "County": order["customer"]["country"],
-                    "Country": order["customer"]["zip_code"],
+                    "Country": "CL", # Por el momento dejarlo en duro
                     "State": "1",
                     "TaxCode": "IVA",
                     "AddressType":"bo_BillTo"
@@ -104,7 +109,7 @@ class ConvertSapDocument():
         FederalTaxID = self.__data["order"]["customer"]["rut"]
 
         if FederalTaxID == "":
-            FederalTaxID = "66666666-6"
+            FederalTaxID = "77777777-7C"
 
         json_order = {
             "U_SEI_IDPS": config["site_name"] +"-"+ order["extra_info"]["name"],
@@ -120,7 +125,7 @@ class ConvertSapDocument():
             "Indicator": config["type_document"],
             "FederalTaxID": "61606100-3",
             "DiscountPercent": order["adjustment"],
-            "U_SEI_FOREF": str(order["id"]),
+            "U_SEI_FOREF": str(order["extra_info"]["name"]),
             "U_SEI_FEREF": "2021-05-18",
             "U_SEI_INREF":801,
             "DocumentLines": self.get_products()
@@ -150,6 +155,46 @@ class ConvertSapDocument():
         }
 
         return json_sap_document
+
+    def validate_article_in_sap(self):
+        user = self.__data["sap_json"]["config"]
+        order = self.__data["order"]
+        credentials = {
+            "CompanyDB": "DESARROLLO2",
+            "Password": user["password"],
+            "UserName": user["username"],
+            "Language": "23"
+        }
+        products = self.get_products()
+        product_error = []
+        for product in products:
+            article = product["ItemCode"]
+            response = requests.post(
+                f"https://sbo-wildbrands.cloudseidor.com:4300/Wildbrands/Integracion/ObtenerItems.xsjs?$select=ItemCode,ItemName,ForeignName&$filter=ItemCode eq '{article}'",
+                json=credentials
+            )
+            if len(response.json()) == 0:
+                product_error.append(article)
+
+        product_not_found = {
+            "product_not_found": product_error
+        }
+        if len(product_error) == 0:
+            return self.send_sap()
+        else:
+            order_id = order["id"]
+            access_token = user["access_token_lp"]
+            error = json.dumps(product_error)
+            response = requests.put(
+                f"{LP_API}/v1/order/{order_id}",
+                headers={
+                    "Authorization": f"Bearer {access_token}"
+                },
+                params={
+                    'extra_info': json.dumps(product_not_found)
+                }
+            )
+            return self.send_sap()
 
     def send_sap(self):
 
