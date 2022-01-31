@@ -7,8 +7,7 @@ import os
 
 logging.getLogger().setLevel(logging.INFO)
 
-#LP_API = os.getenv('LP_API', '')
-LP_API = "https://apibodegas.ondev.today"
+LP_API = os.getenv('LP_API', '')
 
 class ConvertSapDocument():
     def __init__(self, data) -> None:
