@@ -7,8 +7,8 @@ import os
 
 logging.getLogger().setLevel(logging.INFO)
 
-LP_API = os.getenv('LP_API', '')
-#LP_API = "https://apibodegas.ondev.today"
+#LP_API = os.getenv('LP_API', '')
+LP_API = "https://apibodegas.ondev.today"
 
 class ConvertSapDocument():
     def __init__(self, data) -> None:
@@ -48,7 +48,7 @@ class ConvertSapDocument():
             "BPAddresses":[
                 {
                     "AddressName":"DESPACHO",
-                    "Street": "calle,",
+                    "Street": order["customer"]["address"],
                     "City": order["customer"]["city"],
                     "County": order["customer"]["country"],
                     "Country": order["customer"]["zip_code"],
@@ -58,7 +58,7 @@ class ConvertSapDocument():
                 },
                 {
                     "AddressName":"FACTURACION",
-                    "Street": "calle,",
+                    "Street": order["customer"]["address"],
                     "City": order["customer"]["city"],
                     "County": order["customer"]["country"],
                     "Country": order["customer"]["zip_code"],
@@ -167,7 +167,6 @@ class ConvertSapDocument():
         }
         products = self.get_products()
         product_error = []
-        error_products = {}
         for product in products:
             article = product["ItemCode"]
             response = requests.post(
@@ -175,16 +174,10 @@ class ConvertSapDocument():
                 json=credentials
             )
             if len(response.json()) == 0:
-                product_error.append({
-                    "sku": article
-                })
-        cont = 0
-        for item in product_error:
-            cont = cont + 1
-            error_products[cont] = item["sku"]
+                product_error.append(article)
 
         product_not_found = {
-            "product_not_found": error_products
+            "product_not_found": product_error
         }
         if len(product_error) == 0:
             return self.send_sap()
