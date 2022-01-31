@@ -51,7 +51,7 @@ class ConvertSapDocument():
                     "Street": order["customer"]["address"],
                     "City": order["customer"]["city"],
                     "County": order["customer"]["country"],
-                    "Country": order["customer"]["zip_code"],
+                    "Country": "CL", # Por el momento dejarlo en duro
                     "State": "1",
                     "TaxCode": "IVA",
                     "AddressType":"bo_ShipTo"
@@ -61,7 +61,7 @@ class ConvertSapDocument():
                     "Street": order["customer"]["address"],
                     "City": order["customer"]["city"],
                     "County": order["customer"]["country"],
-                    "Country": order["customer"]["zip_code"],
+                    "Country": "CL", # Por el momento dejarlo en duro
                     "State": "1",
                     "TaxCode": "IVA",
                     "AddressType":"bo_BillTo"
