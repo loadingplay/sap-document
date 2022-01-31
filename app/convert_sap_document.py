@@ -202,6 +202,7 @@ class ConvertSapDocument():
                 "https://sbo-wildbrands.cloudseidor.com:4300/Wildbrands/Integracion/App.xsjs",
                 json=self.join_json_sap()
             )
+            logging.info(f"JSON send SAP: {self.join_json_sap()}")
             logging.info("sap responded to send sap: " + str(response.json()))
             return response.json()
         except Exception as ex:
