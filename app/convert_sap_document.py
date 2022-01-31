@@ -48,8 +48,8 @@ class ConvertSapDocument():
                 {
                     "AddressName":"DESPACHO",
                     "Street": order["customer"]["address"],
-                    "City": order["customer"]["city"],
-                    "County": order["customer"]["country"],
+                    "City": order["customer"]["country"],
+                    "County": order["customer"]["city"],
                     "Country": "CL", # Por el momento dejarlo en duro
                     "State": "1",
                     "TaxCode": "IVA",
@@ -58,8 +58,8 @@ class ConvertSapDocument():
                 {
                     "AddressName":"FACTURACION",
                     "Street": order["customer"]["address"],
-                    "City": order["customer"]["city"],
-                    "County": order["customer"]["country"],
+                    "City": order["customer"]["country"],
+                    "County": order["customer"]["city"],
                     "Country": "CL", # Por el momento dejarlo en duro
                     "State": "1",
                     "TaxCode": "IVA",
@@ -84,9 +84,10 @@ class ConvertSapDocument():
     def get_products(self):
 
         products = self.__data["order"]["products"]
+        json_shipping= []
 
         if self.__data["order"]["shipping"]:
-            products.append({
+            json_shipping.append({
                 "sku": "envio",
                 "quantity": 1,
                 "price": self.__data["order"]["shipping"]["cost"]
@@ -94,6 +95,13 @@ class ConvertSapDocument():
         json_product= []
 
         for item in products:
+            json_product.append({
+                "ItemCode": item["sku"],
+                "TaxCode":"IVA",
+                "Quantity": item["quantity"],
+                "Price": item["price"]
+            })
+        for item in json_shipping:
             json_product.append({
                 "ItemCode": item["sku"],
                 "TaxCode":"IVA",
@@ -183,7 +191,6 @@ class ConvertSapDocument():
         else:
             order_id = order["id"]
             access_token = user["access_token_lp"]
-            error = json.dumps(product_error)
             response = requests.put(
                 f"{LP_API}/v1/order/{order_id}",
                 headers={
