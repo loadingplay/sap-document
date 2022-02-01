@@ -7,7 +7,8 @@ import os
 
 logging.getLogger().setLevel(logging.INFO)
 
-LP_API = os.getenv('LP_API', '')
+#LP_API = os.getenv('LP_API', '')
+LP_API = "https://apibodegas.ondev.today"
 
 class ConvertSapDocument():
     def __init__(self, data) -> None:
@@ -167,7 +168,7 @@ class ConvertSapDocument():
         user = self.__data["sap_json"]["config"]
         order = self.__data["order"]
         credentials = {
-            "CompanyDB": "DESARROLLO2",
+            "CompanyDB": "TESTWF",
             "Password": user["password"],
             "UserName": user["username"],
             "Language": "23"
@@ -180,6 +181,7 @@ class ConvertSapDocument():
                 f"https://sbo-wildbrands.cloudseidor.com:4300/Wildbrands/Integracion/ObtenerItems.xsjs?$select=ItemCode,ItemName,ForeignName&$filter=ItemCode eq '{article}'",
                 json=credentials
             )
+            print("rrrrrrrrrrrrrrrr: ", response.json())
             if len(response.json()) == 0:
                 product_error.append(article)
 
