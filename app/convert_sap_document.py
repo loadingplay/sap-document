@@ -144,7 +144,7 @@ class ConvertSapDocument():
     def get_pago(self):
 
         json_pago = {
-            "CreditCard":1,
+            "CreditCard":3,
             "CreditCardNumber":"6789",
             "CardValidUntil":"2022-12-31",
             "VoucherNum":"200",
