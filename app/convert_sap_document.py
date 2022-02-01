@@ -127,7 +127,7 @@ class ConvertSapDocument():
             "CardCode": "C"+FederalTaxID,
             "DocCurrency": order["extra_info"]["currency"],
             "DocRate":1,
-            "SalesPersonCode":1, # duda
+            "SalesPersonCode":4, # duda
             "ContactPersonCode":"null", # duda
             "ShipToCode":"DESPACHO", # duda
             "Indicator": config["type_document"],
