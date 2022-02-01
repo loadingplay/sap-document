@@ -8,6 +8,7 @@ import os
 logging.getLogger().setLevel(logging.INFO)
 
 LP_API = os.getenv('LP_API', '')
+#LP_API = "https://apibodegas.ondev.today"
 
 class ConvertSapDocument():
     def __init__(self, data) -> None:
@@ -167,7 +168,7 @@ class ConvertSapDocument():
         user = self.__data["sap_json"]["config"]
         order = self.__data["order"]
         credentials = {
-            "CompanyDB": "DESARROLLO2",
+            "CompanyDB": user["company_db"],
             "Password": user["password"],
             "UserName": user["username"],
             "Language": "23"
@@ -203,10 +204,10 @@ class ConvertSapDocument():
             return self.send_sap()
 
     def send_sap(self):
-
+        url = self.__data["sap_json"]["config"]["site_url"]
         try:
             response = requests.post(
-                "https://sbo-wildbrands.cloudseidor.com:4300/Wildbrands/Integracion/App.xsjs",
+                url,
                 json=self.join_json_sap()
             )
             logging.info("sap responded to send sap: " + str(response.json()))
