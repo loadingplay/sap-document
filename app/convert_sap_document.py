@@ -113,6 +113,19 @@ class ConvertSapDocument():
             })
         return json_product
 
+    def get_discount_percent(self):
+        order = self.__data["order"]
+
+        subtotal = order["subtotal"]
+
+        adjustment = order["adjustment"]
+        discount = ( - (100 * adjustment) / subtotal) / 100
+        if adjustment == 0:
+            discount = 0
+            return discount
+        discount = round(discount, 5)
+        return discount
+
     def get_order(self):
         order = self.__data["order"]
         config = self.__data["sap_json"]["config"]
@@ -134,7 +147,7 @@ class ConvertSapDocument():
             "ShipToCode":"DESPACHO", # duda
             "Indicator": config["type_document"],
             "FederalTaxID": "61606100-3",
-            "DiscountPercent": order["adjustment"],
+            "DiscountPercent": self.get_discount_percent(),
             "U_SEI_FOREF": str(order["extra_info"]["name"]),
             "U_SEI_FEREF": "2021-05-18",
             "U_SEI_INREF":801,
