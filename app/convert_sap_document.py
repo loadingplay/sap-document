@@ -83,7 +83,7 @@ class ConvertSapDocument():
         return json_sn
 
     def get_products(self):
-        #IVA = 1.19 se desactiva IVA por el momento ya que sap tambien hace el descuento
+        IVA = 1.19
         products = self.__data["order"]["products"]
         json_shipping= []
 
@@ -97,19 +97,20 @@ class ConvertSapDocument():
 
         for item in products:
 
-            #price = round(item["price"] / IVA, 2)
+            price = round(item["price"] / IVA, 2)
             json_product.append({
                 "ItemCode": item["sku"],
                 "TaxCode":"IVA",
                 "Quantity": item["quantity"],
-                "Price": item["price"]
+                "UnitPrice": price
             })
         for item in json_shipping:
+            price_shipping = round(item["price"] / IVA, 2)
             json_product.append({
                 "ItemCode": item["sku"],
                 "TaxCode":"IVA",
                 "Quantity": item["quantity"],
-                "Price": item["price"]
+                "UnitPrice": price_shipping
             })
         return json_product
 
