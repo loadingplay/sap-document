@@ -120,7 +120,7 @@ class ConvertSapDocument():
         subtotal = order["subtotal"]
 
         adjustment = order["adjustment"]
-        discount = ( - (100 * adjustment) / subtotal) / 100
+        discount = ( - (100 * adjustment) / subtotal)
         if adjustment == 0:
             discount = 0
             return discount
