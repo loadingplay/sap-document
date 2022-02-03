@@ -20,6 +20,7 @@ class ConvertSapDocument():
             "Password": user["password"],
             "UserName": user["username"]
         }
+
         return json_user
 
     def get_sn(self):
