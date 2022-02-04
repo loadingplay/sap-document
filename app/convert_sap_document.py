@@ -98,7 +98,7 @@ class ConvertSapDocument():
 
         for item in products:
 
-            price = round(item["price"] / IVA, 2)
+            price = round(item["price"] / IVA, 3)
             discount_order_lp = item["discount"]
             unit_discount = 0
             if not discount_order_lp == 0:
