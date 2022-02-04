@@ -99,11 +99,17 @@ class ConvertSapDocument():
         for item in products:
 
             price = round(item["price"] / IVA, 2)
+            discount_order_lp = item["discount"]
+            unit_discount = 0
+            if not discount_order_lp == 0:
+                unit_discount = ( - (100 * discount_order_lp) / price)
+
             json_product.append({
                 "ItemCode": item["sku"],
                 "TaxCode":"IVA",
                 "Quantity": item["quantity"],
-                "UnitPrice": price
+                "UnitPrice": price,
+                "DiscountPercent": unit_discount
             })
         for item in json_shipping:
             price_shipping = round(item["price"] / IVA, 2)
@@ -149,7 +155,7 @@ class ConvertSapDocument():
             "ShipToCode":"DESPACHO", # duda
             "Indicator": config["type_document"],
             "FederalTaxID": "61606100-3",
-            "DiscountPercent": self.get_discount_percent(),
+            #"DiscountPercent": self.get_discount_percent(), ------elimniado por el momento------
             "U_SEI_FOREF": str(order["extra_info"]["name"]),
             "U_SEI_FEREF": "2021-05-18",
             "U_SEI_INREF":801,
