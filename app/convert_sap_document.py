@@ -102,7 +102,7 @@ class ConvertSapDocument():
             discount_order_lp = item["discount"]
             unit_discount = 0
             if not discount_order_lp == 0:
-                unit_discount = ( - (100 * discount_order_lp) / price)
+                unit_discount = ( - (item["price"] / discount_order_lp) * 100)
 
             json_product.append({
                 "ItemCode": item["sku"],
