@@ -140,7 +140,7 @@ class ConvertSapDocument():
         FederalTaxID = self.__data["order"]["customer"]["rut"]
 
         if FederalTaxID == "":
-            FederalTaxID = "77777777-7C"
+            FederalTaxID = "77777777-7"
 
         json_order = {
             "U_SEI_IDPS": config["site_name"] +"-"+ order["extra_info"]["name"],
@@ -152,9 +152,9 @@ class ConvertSapDocument():
             "DocRate":1,
             "SalesPersonCode":4, # duda
             "ContactPersonCode":"null", # duda
-            "ShipToCode":"DESPACHO", # duda
+            #"ShipToCode":"DESPACHO", # duda
             "Indicator": config["type_document"],
-            "FederalTaxID": "61606100-3",
+            "FederalTaxID": FederalTaxID,
             #"DiscountPercent": self.get_discount_percent(), ------elimniado por el momento------
             "U_SEI_FOREF": str(order["extra_info"]["name"]),
             "U_SEI_FEREF": "2021-05-18",
