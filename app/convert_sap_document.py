@@ -152,6 +152,7 @@ class ConvertSapDocument():
             "DocRate":1,
             "SalesPersonCode":4, # duda
             "ContactPersonCode":"null", # duda
+            "U_SEI_MAILCLIENTE":order["customer"]["email"],
             #"ShipToCode":"DESPACHO", # duda
             "Indicator": config["type_document"],
             "FederalTaxID": FederalTaxID,
