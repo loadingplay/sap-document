@@ -134,6 +134,7 @@ class ConvertSapDocument():
         discount = round(discount, 5)
         return discount
 
+
     def get_order(self):
         order = self.__data["order"]
         config = self.__data["sap_json"]["config"]
@@ -145,6 +146,7 @@ class ConvertSapDocument():
         json_order = {
             "U_SEI_IDPS": config["site_name"] +"-"+ order["extra_info"]["name"],
             "DocDate": order["date"],
+            "WarehouseCode": config["WarehouseCode"],
             "DocDueDate": order["date"],
             "TaxDate": order["date"],
             "CardCode": "C"+FederalTaxID,
