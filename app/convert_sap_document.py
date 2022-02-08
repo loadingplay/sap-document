@@ -86,6 +86,7 @@ class ConvertSapDocument():
     def get_products(self):
         IVA = 1.19
         products = self.__data["order"]["products"]
+        config = self.__data["sap_json"]["config"]
         json_shipping= []
 
         if self.__data["order"]["shipping"]:
@@ -109,6 +110,7 @@ class ConvertSapDocument():
                 "TaxCode":"IVA",
                 "Quantity": item["quantity"],
                 "UnitPrice": price,
+                "WarehouseCode": config["WarehouseCode"],
                 "DiscountPercent": unit_discount
             })
         for item in json_shipping:
@@ -117,6 +119,7 @@ class ConvertSapDocument():
                 "ItemCode": item["sku"],
                 "TaxCode":"IVA",
                 "Quantity": item["quantity"],
+                "WarehouseCode": config["WarehouseCode"],
                 "UnitPrice": price_shipping
             })
         return json_product
@@ -146,7 +149,6 @@ class ConvertSapDocument():
         json_order = {
             "U_SEI_IDPS": config["site_name"] +"-"+ order["extra_info"]["name"],
             "DocDate": order["date"],
-            "WarehouseCode": config["WarehouseCode"],
             "DocDueDate": order["date"],
             "TaxDate": order["date"],
             "CardCode": "C"+FederalTaxID,
