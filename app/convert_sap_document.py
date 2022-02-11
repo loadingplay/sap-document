@@ -83,6 +83,26 @@ class ConvertSapDocument():
 
         return json_sn
 
+    def get_products_batch(self):
+        site_name_order = self.__data["order"]["site_name"]
+        json_product = self.get_products()
+        batch_number = "BatchNumbers"
+        list_product = []
+
+        if site_name_order == "lamawild-sap":
+            for item in json_product:
+
+                if batch_number in item:
+                    del item[batch_number]
+                    list_product.append(item)
+
+                else:
+                    list_product.append(item)
+            return list_product
+        else:
+            list_product.append(json_product)
+            return list_product
+
     def get_products(self):
         IVA = 1.19
         products = self.__data["order"]["products"]
@@ -111,8 +131,15 @@ class ConvertSapDocument():
                 "Quantity": item["quantity"],
                 "UnitPrice": price,
                 "WarehouseCode": config["WarehouseCode"],
-                "DiscountPercent": unit_discount
+                "DiscountPercent": unit_discount,
+                "BatchNumbers": [
+                    {
+                        "BatchNumber": "shopify",
+                        "Quantity": item["quantity"]
+                    }
+                ]
             })
+
         for item in json_shipping:
             price_shipping = round(item["price"] / IVA, 2)
             json_product.append({
@@ -165,7 +192,7 @@ class ConvertSapDocument():
             "U_SEI_FEREF": "2021-05-18",
             "U_SEI_INREF":801,
             "U_SEI_CANAL":"CAN03",
-            "DocumentLines": self.get_products()
+            "DocumentLines": self.get_products_batch()
 
         }
         return json_order

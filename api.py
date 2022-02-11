@@ -9,11 +9,12 @@ api = FastAPI()
 
 @api.post("/v1/generate_document")
 def post_sap(data: dict):
-    logging.info(f"Data: {data}")
+    order = data["order"]["id"]
+    logging.info(f"order arrived: {order} Data: {data}")
     json_data = ConvertSapDocument(data)
     data_converted = json_data.join_json_sap()
-    logging.info(f"Data transformed: {data_converted}")
+    logging.info(f"Data transformed order_id: {order} data: {data_converted}")
     request_document = json_data.validate_article_in_sap()
-    logging.info(f"Data response of sap: {request_document}")
+    logging.info(f"Data response of sap order: {order} response: {request_document}")
     return request_document
 
