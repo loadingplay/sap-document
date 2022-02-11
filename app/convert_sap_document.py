@@ -100,7 +100,7 @@ class ConvertSapDocument():
                     list_product.append(item)
             return list_product
         else:
-            list_product.append(json_product)
+            list_product = json_product
             return list_product
 
     def get_products(self):
