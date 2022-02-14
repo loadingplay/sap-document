@@ -4,6 +4,7 @@ import logging
 import json
 import os
 
+from app.exceptions import JoinJsonSapError
 
 logging.getLogger().setLevel(logging.INFO)
 
