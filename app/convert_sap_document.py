@@ -39,7 +39,7 @@ class ConvertSapDocument():
             "GroupCode": 100,
             "FederalTaxID": FederalTaxID,
             "EmailAddress": order["customer"]["email"],
-            "CardForeignName":"SERVICIO DE SALUD IQUIQUE", # duda
+            "CardForeignName":"Shopify", # duda
             "ShipToDefault":"DESPACHO", # duda
             "BilltoDefault":"FACTURACION", # duda
             "U_SEI_GNRP": "GOBIERNO",
