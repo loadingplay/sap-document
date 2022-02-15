@@ -27,6 +27,8 @@ class ConvertSapDocument():
         order = self.__data["order"]
 
         FederalTaxID = self.__data["order"]["customer"]["rut"]
+        address = order["customer"]["address"]
+        street = address[:99]
 
         if FederalTaxID == "":
             FederalTaxID = "77777777-7"
@@ -49,7 +51,7 @@ class ConvertSapDocument():
             "BPAddresses":[
                 {
                     "AddressName":"DESPACHO",
-                    "Street": order["customer"]["address"],
+                    "Street": street,
                     "City": order["customer"]["country"],
                     "County": order["customer"]["city"],
                     "Country": "CL", # Por el momento dejarlo en duro
@@ -59,7 +61,7 @@ class ConvertSapDocument():
                 },
                 {
                     "AddressName":"FACTURACION",
-                    "Street": order["customer"]["address"],
+                    "Street": street,
                     "City": order["customer"]["country"],
                     "County": order["customer"]["city"],
                     "Country": "CL", # Por el momento dejarlo en duro
