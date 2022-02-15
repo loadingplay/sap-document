@@ -192,10 +192,15 @@ class ConvertSapDocument():
             "U_SEI_FEREF": "2021-05-18",
             "U_SEI_INREF":801,
             "U_SEI_CANAL":"CAN03",
+            "U_SEI_ESTADOPAGO" : "Pagado",
             "DocumentLines": self.get_products_batch()
 
         }
-        return json_order
+        if order["site_name"] == "wildfoods-sap":
+            return json_order
+        else:
+            del json_order["U_SEI_ESTADOPAGO"]
+            return json_order
 
     def get_pago(self):
 
