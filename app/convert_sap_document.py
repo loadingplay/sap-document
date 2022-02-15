@@ -29,6 +29,8 @@ class ConvertSapDocument():
         FederalTaxID = self.__data["order"]["customer"]["rut"]
         address = order["customer"]["address"]
         street = address[:99]
+        if street == "":
+            street = "Sin direccion"
 
         if FederalTaxID == "":
             FederalTaxID = "77777777-7"
