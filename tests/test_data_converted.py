@@ -99,7 +99,6 @@ class ConvertSapDocumentTestCase(unittest.TestCase):
                 "UnitPrice": 2512.61
             }
         ]
-        print(result)
 
         assert result == expected_ouput
 
