@@ -8,7 +8,8 @@ import os
 logging.getLogger().setLevel(logging.INFO)
 
 LP_API = os.getenv('LP_API', '')
-#LP_API = "https://apibodegas.ondev.today"
+# LP_API = "https://apibodegas.ondev.today"
+
 
 class ConvertSapDocument():
     def __init__(self, data) -> None:
@@ -32,7 +33,7 @@ class ConvertSapDocument():
         street = address[:99]
         if street == "":
             street = "Sin direccion"
-        
+
         if city == "":
             city = "Sin direccion"
 
@@ -43,7 +44,6 @@ class ConvertSapDocument():
         if FederalTaxID == "":
             FederalTaxID = "77777777-7"
 
-
         json_sn = {
             "CardCode": "C77777777-7C",
             "CardName": order["customer"]["name"],
@@ -51,38 +51,39 @@ class ConvertSapDocument():
             "GroupCode": 100,
             "FederalTaxID": FederalTaxID,
             "EmailAddress": order["customer"]["email"],
-            "CardForeignName":"Shopify", # duda
-            "ShipToDefault":"DESPACHO", # duda
-            "BilltoDefault":"FACTURACION", # duda
+            "CardForeignName": "Shopify",  # duda
+            "ShipToDefault": "DESPACHO",  # duda
+            "BilltoDefault": "FACTURACION",  # duda
             "U_SEI_GNRP": "GOBIERNO",
-            "DebitorAccount":"110401001", # Se recomienda no enviar
+            "DebitorAccount": "110401001",  # Se recomienda no enviar
             "U_Tipo": "N",
             "Currency": order["extra_info"]["currency"],
-            "BPAddresses":[
+            "BPAddresses": [
                 {
-                    "AddressName":"DESPACHO",
+                    "AddressName": "DESPACHO",
                     "Street": street,
                     "City": city,
                     "County": county,
-                    "Country": "CL", # Por el momento dejarlo en duro
+                    "Country": "CL",  # Por el momento dejarlo en duro
                     "State": "1",
                     "TaxCode": "IVA",
-                    "AddressType":"bo_ShipTo"
+                    "AddressType": "bo_ShipTo"
                 },
                 {
-                    "AddressName":"FACTURACION",
+                    "AddressName": "FACTURACION",
                     "Street": street,
                     "City": city,
                     "County": county,
-                    "Country": "CL", # Por el momento dejarlo en duro
+                    "Country": "CL",  # Por el momento dejarlo en duro
                     "State": "1",
                     "TaxCode": "IVA",
-                    "AddressType":"bo_BillTo"
+                    "AddressType": "bo_BillTo"
                 }
             ],
-            "ContactEmployees":[ # nodo duda
+            "ContactEmployees": [  # nodo duda
                 {
-                    "Name": order["customer"]["name"]+" "+order["customer"]["last_name"],
+                    "Name": order["customer"]["name"] + " " + \
+                    order["customer"]["last_name"],
                     "Phone1": order["customer"]["telephone"],
                     "E_Mail": order["customer"]["email"],
                     "FirstName": order["customer"]["name"],
@@ -119,7 +120,7 @@ class ConvertSapDocument():
         IVA = 1.19
         products = self.__data["order"]["products"]
         config = self.__data["sap_json"]["config"]
-        json_shipping= []
+        json_shipping = []
 
         if self.__data["order"]["shipping"]:
             json_shipping.append({
@@ -127,7 +128,7 @@ class ConvertSapDocument():
                 "quantity": 1,
                 "price": self.__data["order"]["shipping"]["cost"]
                 })
-        json_product= []
+        json_product = []
 
         for item in products:
 
@@ -139,7 +140,7 @@ class ConvertSapDocument():
 
             json_product.append({
                 "ItemCode": item["sku"],
-                "TaxCode":"IVA",
+                "TaxCode": "IVA",
                 "Quantity": item["quantity"],
                 "UnitPrice": price,
                 "WarehouseCode": config["WarehouseCode"],
@@ -156,7 +157,7 @@ class ConvertSapDocument():
             price_shipping = round(item["price"] / IVA, 2)
             json_product.append({
                 "ItemCode": item["sku"],
-                "TaxCode":"IVA",
+                "TaxCode": "IVA",
                 "Quantity": item["quantity"],
                 "WarehouseCode": config["WarehouseCode"],
                 "UnitPrice": price_shipping
@@ -169,13 +170,12 @@ class ConvertSapDocument():
         subtotal = order["subtotal"]
 
         adjustment = order["adjustment"]
-        discount = ( - (100 * adjustment) / subtotal)
+        discount = (- (100 * adjustment) / subtotal)
         if adjustment == 0:
             discount = 0
             return discount
         discount = round(discount, 5)
         return discount
-
 
     def get_order(self):
         order = self.__data["order"]
@@ -186,25 +186,25 @@ class ConvertSapDocument():
             FederalTaxID = "77777777-7"
 
         json_order = {
-            "U_SEI_IDPS": config["site_name"] +"-"+ order["extra_info"]["name"],
+            "U_SEI_IDPS":
+                config["site_name"] + "-" + order["extra_info"]["name"],
             "DocDate": order["date"],
             "DocDueDate": order["date"],
             "TaxDate": order["date"],
             "CardCode": "C"+FederalTaxID,
             "DocCurrency": order["extra_info"]["currency"],
-            "DocRate":1,
-            "SalesPersonCode":4, # duda
-            "ContactPersonCode":"null", # duda
-            "U_SEI_MAILCLIENTE":order["customer"]["email"],
-            #"ShipToCode":"DESPACHO", # duda
+            "DocRate": 1,
+            "SalesPersonCode": 4,  # duda
+            "ContactPersonCode": "null",  # duda
+            "U_SEI_MAILCLIENTE": order["customer"]["email"],
+            # "ShipToCode":"DESPACHO", # duda
             "Indicator": config["type_document"],
             "FederalTaxID": FederalTaxID,
-            #"DiscountPercent": self.get_discount_percent(), ------elimniado por el momento------
             "U_SEI_FOREF": str(order["extra_info"]["name"]),
             "U_SEI_FEREF": "2021-05-18",
-            "U_SEI_INREF":801,
-            "U_SEI_CANAL":"CAN03",
-            "U_SEI_ESTADOPAGO" : "Pagado",
+            "U_SEI_INREF": 801,
+            "U_SEI_CANAL": "CAN03",
+            "U_SEI_ESTADOPAGO": "Pagado",
             "DocumentLines": self.get_products_batch()
 
         }
@@ -218,12 +218,12 @@ class ConvertSapDocument():
 
         json_pago = {
             "CounterReference": "200",
-            "CreditCard":3,
-            "CreditCardNumber":"6789",
-            "CardValidUntil":"2022-12-31",
-            "VoucherNum":"200",
-            "ConfirmationNum":"400",
-            "NumOfPayments":1
+            "CreditCard": 3,
+            "CreditCardNumber": "6789",
+            "CardValidUntil": "2022-12-31",
+            "VoucherNum": "200",
+            "ConfirmationNum": "400",
+            "NumOfPayments": 1
         }
         return json_pago
 
@@ -231,7 +231,7 @@ class ConvertSapDocument():
 
         json_sap_document = {
             "User": self.get_user(),
-            "SN":self.get_sn(),
+            "SN": self.get_sn(),
             "Order": self.get_order(),
             "Pago": self.get_pago()
         }
@@ -255,7 +255,8 @@ class ConvertSapDocument():
                 f"https://sbo-wildbrands.cloudseidor.com:4300/Wildbrands/Integracion/ObtenerItems.xsjs?$select=ItemCode,ItemName,ForeignName&$filter=ItemCode eq '{article}'",
                 json=credentials
             )
-            if len(response.json()) == 0:
+            respose_article = response.json()
+            if not respose_article:
                 product_error.append(article)
 
         product_not_found = {
