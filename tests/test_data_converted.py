@@ -351,7 +351,7 @@ class ConvertSapDocumentTestCase(unittest.TestCase):
             "Indicator": "39",
             "FederalTaxID": "77777777-7",
             "U_SEI_FOREF": "#59942",
-            "U_SEI_FEREF": "2021-05-18",
+            "U_SEI_FEREF": "2022-02-14T09:12:44.716972",
             "U_SEI_INREF": 801,
             "U_SEI_CANAL": "CAN03",
             "DocumentLines": [
@@ -472,7 +472,7 @@ class ConvertSapDocumentTestCase(unittest.TestCase):
             "Indicator": "39",
             "FederalTaxID": "77777777-7",
             "U_SEI_FOREF": "#59942",
-            "U_SEI_FEREF": "2021-05-18",
+            "U_SEI_FEREF": "2022-02-14T09:12:44.716972",
             "U_SEI_INREF": 801,
             "U_SEI_CANAL": "CAN03",
             "DocumentLines": [
@@ -588,7 +588,7 @@ class ConvertSapDocumentTestCase(unittest.TestCase):
             "Indicator": "39",
             "FederalTaxID": "77777777-7",
             "U_SEI_FOREF": "#59942",
-            "U_SEI_FEREF": "2021-05-18",
+            "U_SEI_FEREF": "2022-02-14T09:12:44.716972",
             "U_SEI_INREF": 801,
             "U_SEI_CANAL": "CAN03",
             "U_SEI_ESTADOPAGO": "Pagado",
@@ -795,7 +795,7 @@ class ConvertSapDocumentTestCase(unittest.TestCase):
                 "Indicator": "39",
                 "FederalTaxID": "77777777-7",
                 "U_SEI_FOREF": "#59942",
-                "U_SEI_FEREF": "2021-05-18",
+                "U_SEI_FEREF": "2022-02-14T09:12:44.716972",
                 "U_SEI_INREF": 801,
                 "U_SEI_CANAL": "CAN03",
                 "DocumentLines": [
