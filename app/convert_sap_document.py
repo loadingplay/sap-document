@@ -201,7 +201,7 @@ class ConvertSapDocument():
             "Indicator": config["type_document"],
             "FederalTaxID": FederalTaxID,
             "U_SEI_FOREF": str(order["extra_info"]["name"]),
-            "U_SEI_FEREF": "2021-05-18",
+            "U_SEI_FEREF": order["date"],
             "U_SEI_INREF": 801,
             "U_SEI_CANAL": "CAN03",
             "U_SEI_ESTADOPAGO": "Pagado",
