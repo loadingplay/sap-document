@@ -197,7 +197,6 @@ class ConvertSapDocument():
             "SalesPersonCode": 4,  # duda
             "ContactPersonCode": "null",  # duda
             "U_SEI_MAILCLIENTE": order["customer"]["email"],
-            # "ShipToCode":"DESPACHO", # duda
             "Indicator": config["type_document"],
             "FederalTaxID": FederalTaxID,
             "U_SEI_FOREF": str(order["extra_info"]["name"]),
@@ -206,13 +205,8 @@ class ConvertSapDocument():
             "U_SEI_CANAL": "CAN03",
             "U_SEI_ESTADOPAGO": "Pagado",
             "DocumentLines": self.get_products_batch()
-
         }
-        if order["site_name"] == "wildfoods-sap":
-            return json_order
-        else:
-            del json_order["U_SEI_ESTADOPAGO"]
-            return json_order
+        return json_order
 
     def get_pago(self):
 

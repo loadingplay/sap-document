@@ -354,243 +354,6 @@ class ConvertSapDocumentTestCase(unittest.TestCase):
             "U_SEI_FEREF": "2022-02-14T09:12:44.716972",
             "U_SEI_INREF": 801,
             "U_SEI_CANAL": "CAN03",
-            "DocumentLines": [
-                {
-                    "ItemCode": "30402",
-                    "TaxCode": "IVA",
-                    "Quantity": 6.0,
-                    "UnitPrice": 4193.277311,
-                    "WarehouseCode": "BODECOMC",
-                    "DiscountPercent": 0,
-                    "BatchNumbers": [
-                        {
-                            "BatchNumber": "shopify",
-                            "Quantity": 6.0
-                        }
-                    ]
-                },
-                {
-                    "ItemCode": "envio",
-                    "TaxCode": "IVA",
-                    "Quantity": 1,
-                    "WarehouseCode": "BODECOMC",
-                    "UnitPrice": 2512.61
-                }
-            ]
-        }
-        assert result == expected_ouput
-
-    def test_order_not_U_SEI_ESTADOPAGO_for_lamawild_sap(self):
-        input_data = {
-            "order": {
-                "id": 3825128,
-                "date": "2022-02-14T09:12:44.716972",
-                "subtotal": 29940.0,
-                "shipping": {
-                    "cost": 2990.0,
-                    "address_line_1":
-                        "El Arcángel 4950 Dpto 703 Vitacura Santiago",
-                    "city": "Santiago",
-                    "town": "Vitacura",
-                    "country": "chile"
-                },
-                "tax": 0.0,
-                "total": 32930.0,
-                "extra_info": {
-                    "name": "#59942",
-                    "bill_comment": "Pedido Shopify: #59942",
-                    "currency": "CLP"
-                },
-                "reference_code": "4356494033092",
-                "adjustment": -0.0,
-                "origin": "shopify",
-                "url_document": "",
-                "site_name": "lamawild-sap",
-                "cellar_id": 2342,
-                "products": [
-                    {
-                        "id": 7128942,
-                        "quantity": 6.0,
-                        "subtotal": 29940.0,
-                        "order_id": 3825128,
-                        "size": "",
-                        "price": 4990.0,
-                        "sku": "30402",
-                        "name": "Wild Fit Coco 5 Unidades",
-                        "discount": 0.0,
-                        "barcode": "",
-                        "cellar_id": "2342"
-                    }
-                ],
-                "customer": {
-                    "id": 72542921,
-                    "name": "María Paz",
-                    "email": "mperrazuriz@aptus.org",
-                    "address": "El Arcángel 4950 Dpto 703 Vitacura Santiago",
-                    "telephone": "992825655",
-                    "zip_code": "CL",
-                    "additional_info": "",
-                    "town": "",
-                    "country": "chile",
-                    "rut": "",
-                    "type": "persona",
-                    "city": "Vitacura",
-                    "region": "Santiago",
-                    "customer_id": 12862185,
-                    "last_name": "Errazuriz"
-                }
-            },
-            "sap_json": {
-                "id": "204",
-                "type": "sap document",
-                "next_task": "end",
-                "config": {
-                    "type_document": "39",
-                    "username": "LOGINPLAY",
-                    "password": "1234",
-                    "site_name": "lamawild-sap",
-                    "WarehouseCode": "BODECOMC",
-                    "company_db": "TESTWF",
-                    "site_url": "https",
-                    "access_token_lp": "x"
-                }
-            }
-            }
-        send_data = ConvertSapDocument(input_data)
-        result = send_data.get_order()
-        expected_ouput = {
-            "U_SEI_IDPS": "lamawild-sap-#59942",
-            "DocDate": "2022-02-14T09:12:44.716972",
-            "DocDueDate": "2022-02-14T09:12:44.716972",
-            "TaxDate": "2022-02-14T09:12:44.716972",
-            "CardCode": "C77777777-7",
-            "DocCurrency": "CLP",
-            "DocRate": 1,
-            "SalesPersonCode": 4,
-            "ContactPersonCode": "null",
-            "U_SEI_MAILCLIENTE": "mperrazuriz@aptus.org",
-            "Indicator": "39",
-            "FederalTaxID": "77777777-7",
-            "U_SEI_FOREF": "#59942",
-            "U_SEI_FEREF": "2022-02-14T09:12:44.716972",
-            "U_SEI_INREF": 801,
-            "U_SEI_CANAL": "CAN03",
-            "DocumentLines": [
-                {
-                    "ItemCode": "30402",
-                    "TaxCode": "IVA",
-                    "Quantity": 6.0,
-                    "UnitPrice": 4193.277311,
-                    "WarehouseCode": "BODECOMC",
-                    "DiscountPercent": 0,
-                },
-                {
-                    "ItemCode": "envio",
-                    "TaxCode": "IVA",
-                    "Quantity": 1,
-                    "WarehouseCode": "BODECOMC",
-                    "UnitPrice": 2512.61
-                }
-            ]
-        }
-        assert result == expected_ouput
-
-    def test_order_U_SEI_ESTADOPAGO_for_wildfoods_sap(self):
-        input_data = {
-            "order": {
-                "id": 3825128,
-                "date": "2022-02-14T09:12:44.716972",
-                "subtotal": 29940.0,
-                "shipping": {
-                    "cost": 2990.0,
-                    "address_line_1":
-                        "El Arcángel 4950 Dpto 703 Vitacura Santiago",
-                    "address_line_2": "",
-                    "city": "Santiago",
-                    "town": "Vitacura",
-                    "country": "chile"
-                },
-                "tax": 0.0,
-                "total": 32930.0,
-                "extra_info": {
-                    "name": "#59942",
-                    "bill_comment": "Pedido Shopify: #59942",
-                    "currency": "CLP"
-                },
-                "reference_code": "4356494033092",
-                "adjustment": -0.0,
-                "origin": "shopify",
-                "url_document": "",
-                "site_name": "wildfoods-sap",
-                "cellar_id": 2342,
-                "products": [
-                    {
-                        "id": 7128942,
-                        "quantity": 6.0,
-                        "subtotal": 29940.0,
-                        "order_id": 3825128,
-                        "size": "",
-                        "price": 4990.0,
-                        "sku": "30402",
-                        "name": "Wild Fit Coco 5 Unidades",
-                        "discount": 0.0,
-                        "barcode": "",
-                        "cellar_id": "2342"
-                    }
-                ],
-                "customer": {
-                    "id": 72542921,
-                    "name": "María Paz",
-                    "email": "mperrazuriz@aptus.org",
-                    "address": "El Arcángel 4950 Dpto 703 Vitacura Santiago",
-                    "telephone": "992825655",
-                    "zip_code": "CL",
-                    "additional_info": "",
-                    "town": "",
-                    "country": "chile",
-                    "rut": "",
-                    "type": "persona",
-                    "city": "Vitacura",
-                    "region": "Santiago",
-                    "customer_id": 12862185,
-                    "last_name": "Errazuriz"
-                }
-            },
-            "sap_json": {
-                "id": "204",
-                "type": "sap document",
-                "next_task": "end",
-                "config": {
-                    "type_document": "39",
-                    "username": "LOGINPLAY",
-                    "password": "1234",
-                    "site_name": "wildfoods-sap",
-                    "WarehouseCode": "BODECOMC",
-                    "company_db": "TESTWF",
-                    "site_url": "https",
-                    "access_token_lp": "x"
-                }
-            }
-            }
-        send_data = ConvertSapDocument(input_data)
-        result = send_data.get_order()
-        expected_ouput = {
-            "U_SEI_IDPS": "wildfoods-sap-#59942",
-            "DocDate": "2022-02-14T09:12:44.716972",
-            "DocDueDate": "2022-02-14T09:12:44.716972",
-            "TaxDate": "2022-02-14T09:12:44.716972",
-            "CardCode": "C77777777-7",
-            "DocCurrency": "CLP",
-            "DocRate": 1,
-            "SalesPersonCode": 4,
-            "ContactPersonCode": "null",
-            "U_SEI_MAILCLIENTE": "mperrazuriz@aptus.org",
-            "Indicator": "39",
-            "FederalTaxID": "77777777-7",
-            "U_SEI_FOREF": "#59942",
-            "U_SEI_FEREF": "2022-02-14T09:12:44.716972",
-            "U_SEI_INREF": 801,
-            "U_SEI_CANAL": "CAN03",
             "U_SEI_ESTADOPAGO": "Pagado",
             "DocumentLines": [
                 {
@@ -616,7 +379,7 @@ class ConvertSapDocumentTestCase(unittest.TestCase):
                 }
             ]
         }
-        assert result == expected_ouput
+        self.assertEqual(result, expected_ouput)
 
     def test_join_json_sap(self):
         input_data = {
@@ -798,6 +561,7 @@ class ConvertSapDocumentTestCase(unittest.TestCase):
                 "U_SEI_FEREF": "2022-02-14T09:12:44.716972",
                 "U_SEI_INREF": 801,
                 "U_SEI_CANAL": "CAN03",
+                "U_SEI_ESTADOPAGO": "Pagado",
                 "DocumentLines": [
                     {
                         "ItemCode": "30402",
@@ -834,7 +598,7 @@ class ConvertSapDocumentTestCase(unittest.TestCase):
             }
         send_data = ConvertSapDocument(input_data)
         result = send_data.join_json_sap()
-        assert result == expected_ouput
+        self.assertEqual(result, expected_ouput)
 
     def test_get_products_batch_wildfood_success(self):
         input_data = {
