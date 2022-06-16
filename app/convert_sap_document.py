@@ -28,6 +28,11 @@ class ConvertSapDocument():
         order = self.__data["order"]
 
         FederalTaxID = self.__data["order"]["customer"]["rut"]
+        if "-" not in FederalTaxID:
+            rut = FederalTaxID[:-1]
+            digito_verificador = FederalTaxID[-1]
+            FederalTaxID = rut + "-" + digito_verificador
+
         address = order["customer"]["address"]
         city = order["customer"]["country"]
         street = address[:99]
@@ -186,6 +191,11 @@ class ConvertSapDocument():
         order = self.__data["order"]
         config = self.__data["sap_json"]["config"]
         FederalTaxID = self.__data["order"]["customer"]["rut"]
+        if "-" not in FederalTaxID:
+            rut = FederalTaxID[:-1]
+            digito_verificador = FederalTaxID[-1]
+            FederalTaxID = rut + "-" + digito_verificador
+            
         if not order["extra_info"].get("currency"):
             currency = "CLP"
         else:
