@@ -31,6 +31,8 @@ class ConvertSapDocument():
         address = order["customer"]["address"]
         city = order["customer"]["country"]
         street = address[:99]
+        currency = order["extra_info"]["currency"]
+
         if street == "":
             street = "Sin direccion"
 
@@ -43,6 +45,9 @@ class ConvertSapDocument():
 
         if FederalTaxID == "":
             FederalTaxID = "77777777-7"
+
+        if currency == "":
+            currency = "CLP"
 
         json_sn = {
             "CardCode": "C77777777-7C",
@@ -57,7 +62,7 @@ class ConvertSapDocument():
             "U_SEI_GNRP": "GOBIERNO",
             "DebitorAccount": "110401001",  # Se recomienda no enviar
             "U_Tipo": "N",
-            "Currency": order["extra_info"]["currency"],
+            "Currency": currency,
             "BPAddresses": [
                 {
                     "AddressName": "DESPACHO",
@@ -181,9 +186,13 @@ class ConvertSapDocument():
         order = self.__data["order"]
         config = self.__data["sap_json"]["config"]
         FederalTaxID = self.__data["order"]["customer"]["rut"]
+        currency = order["extra_info"]["currency"]
 
         if FederalTaxID == "":
             FederalTaxID = "77777777-7"
+
+        if currency == "":
+            currency = "CLP"
 
         json_order = {
             "U_SEI_IDPS":
@@ -192,7 +201,7 @@ class ConvertSapDocument():
             "DocDueDate": order["date"],
             "TaxDate": order["date"],
             "CardCode": "C"+FederalTaxID,
-            "DocCurrency": order["extra_info"]["currency"],
+            "DocCurrency": currency,
             "DocRate": 1,
             "SalesPersonCode": 4,  # duda
             "ContactPersonCode": "null",  # duda
