@@ -28,6 +28,8 @@ class ConvertSapDocument():
         order = self.__data["order"]
 
         FederalTaxID = self.__data["order"]["customer"]["rut"]
+        if FederalTaxID == "":
+            FederalTaxID = "77777777-7"
         if "-" not in FederalTaxID:
             rut = FederalTaxID[:-1]
             digito_verificador = FederalTaxID[-1]
@@ -50,9 +52,6 @@ class ConvertSapDocument():
         county = order["customer"]["city"]
         if county == "":
             county = "Sin direccion"
-
-        if FederalTaxID == "":
-            FederalTaxID = "77777777-7"
 
         json_sn = {
             "CardCode": "C77777777-7C",
@@ -191,6 +190,8 @@ class ConvertSapDocument():
         order = self.__data["order"]
         config = self.__data["sap_json"]["config"]
         FederalTaxID = self.__data["order"]["customer"]["rut"]
+        if FederalTaxID == "":
+            FederalTaxID = "77777777-7"
         if "-" not in FederalTaxID:
             rut = FederalTaxID[:-1]
             digito_verificador = FederalTaxID[-1]
@@ -200,9 +201,6 @@ class ConvertSapDocument():
             currency = "CLP"
         else:
             currency = order["extra_info"]["currency"]
-
-        if FederalTaxID == "":
-            FederalTaxID = "77777777-7"
 
         json_order = {
             "U_SEI_IDPS":
