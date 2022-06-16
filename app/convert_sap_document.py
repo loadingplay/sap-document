@@ -31,7 +31,10 @@ class ConvertSapDocument():
         address = order["customer"]["address"]
         city = order["customer"]["country"]
         street = address[:99]
-        currency = order["extra_info"]["currency"]
+        if not order["extra_info"].get("currency"):
+            currency = "CLP"
+        else:
+            currency = order["extra_info"]["currency"]
 
         if street == "":
             street = "Sin direccion"
@@ -45,9 +48,6 @@ class ConvertSapDocument():
 
         if FederalTaxID == "":
             FederalTaxID = "77777777-7"
-
-        if currency == "":
-            currency = "CLP"
 
         json_sn = {
             "CardCode": "C77777777-7C",
@@ -186,13 +186,13 @@ class ConvertSapDocument():
         order = self.__data["order"]
         config = self.__data["sap_json"]["config"]
         FederalTaxID = self.__data["order"]["customer"]["rut"]
-        currency = order["extra_info"]["currency"]
+        if not order["extra_info"].get("currency"):
+            currency = "CLP"
+        else:
+            currency = order["extra_info"]["currency"]
 
         if FederalTaxID == "":
             FederalTaxID = "77777777-7"
-
-        if currency == "":
-            currency = "CLP"
 
         json_order = {
             "U_SEI_IDPS":
