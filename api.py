@@ -19,14 +19,12 @@ def post_sap(data: dict):
         if data["sap_json"]["config"].get("type_document", "") == "39":
             json_data = ConvertSapDocument(data)
             data_converted = json_data.join_json_sap()
-            logging.info(
-                f"Data transformed order_id: {order_lp} data: {data_converted}")
             request_document = json_data.validate_article_in_sap()
         else:
             json_data = SapCreditNote(data)
             data_converted = json_data.build_credit_note()
             # enviar JSON de credit note a Sap
-            #request_document = json_data.send_credit_note()
+            request_document = json_data.send_credit_note()
     except JoinJsonSapError as ex:
         logging.error(f"Error on data conversion: {ex}")
         raise HTTPException(
