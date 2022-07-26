@@ -8,6 +8,15 @@ class SapCreditNote():
     def __init__(self, data) -> None:
         self.__data = data
 
+    def get_user(self):
+        user = self.__data["sap_json"]["config"]
+        json_user = {
+            "Password": user["password"],
+            "UserName": user["username"]
+        }
+
+        return json_user
+
     def get_linenum(self):
         s = requests.Session()
         credentials = self.__data["sap_json"]["config"]
@@ -38,22 +47,55 @@ class SapCreditNote():
         linenum = []
         document_lines = response.json()["DocumentLines"]
         for line in document_lines:
-            linenum.append(line["LineNum"])
+            linenum.append({
+                "lineNum": line["LineNum"],
+                "quantity": line["Quantity"]
+                })
         return linenum
 
     def generate_document_lines(self):
         linenum = self.get_linenum()
         DocEntry = self.__data["order"]["extra_info"]["boleta_sap"]["DocEntry"]
+        products = self.__data["order"]["products"]
         document_line = []
         for item in linenum:
             document_line.append({
                 "BaseEntry": str(DocEntry),
-                "BaseLine": str(item),
-                "BaseType": "13"
+                "BaseLine": str(item["lineNum"]),
+                "BaseType": "13",
+                "BatchNumbers": [
+                    {
+                        "BatchNumber": "shopify",
+                        "Quantity": item["quantity"]
+                    }
+                ]
             })
         return document_line
 
-    def build_credit_note(self):
+    def get_document_lines_batch(self):
+        site_name_order = self.__data["order"]["site_name"]
+        json_product = self.generate_document_lines()
+        batch_number = "BatchNumbers"
+        list_product = []
+
+        if site_name_order == "lamawild-sap":
+            for item in json_product:
+
+                if batch_number in item:
+                    del item[batch_number]
+                    list_product.append(item)
+
+                else:
+                    list_product.append(item)
+            return list_product
+        else:
+            list_product = json_product
+            return list_product
+
+    def get_order(self):
+        order = self.__data["order"]
+        config = self.__data["sap_json"]["config"]
+
         FederalTaxID = self.__data["order"]["customer"]["rut"]
         if FederalTaxID == "":
             FederalTaxID = "77777777-7"
@@ -61,11 +103,41 @@ class SapCreditNote():
             rut = FederalTaxID[:-1]
             digito_verificador = FederalTaxID[-1]
             FederalTaxID = rut + "-" + digito_verificador
-        # La data de DocumentLines se debe repetir
-        # tantas veces como datos tenga linenum
-        json_ndc = {
+
+        if not order["extra_info"].get("currency"):
+            currency = "CLP"
+        else:
+            currency = order["extra_info"]["currency"]
+        json_order = {
+            "U_SEI_IDPS":
+                config["site_name"] + "-" + order["extra_info"]["name"],
+            "DocDate": order["date"],
+            "DocDueDate": order["date"],
+            "TaxDate": order["date"],
             "CardCode": "C"+FederalTaxID,
-            "DocumentLines": self.generate_document_lines()
+            "DocCurrency": currency,
+            "DocRate": 1,
+            "SalesPersonCode": 4,
+            "ContactPersonCode": "null",
+            "U_SEI_MAILCLIENTE": order["customer"]["email"],
+            "FederalTaxID": FederalTaxID,
+            "Indicator": config["type_document"],
+            "U_SEI_FOREF": str(order["extra_info"]["name"]),
+            "U_SEI_FEREF": order["date"],
+            "U_SEI_INREF": 33,  # 39 o 33 Dependiente de si es Factura o Boleta
+            "U_SEI_CREF": 1,  # 1 Anula documento de referencia - 2 Corrige texto documento de refencia - 3 Corrige montos		
+            "U_SEI_CANAL": "CAN03",
+            "U_SEI_ESTADOPAGO": "Pagado",
+            "U_SEI_FEBOSID": "",
+            "DocumentLines": self.get_document_lines_batch()
+        }
+        return json_order
+
+    def build_credit_note(self):
+        print("user: ", self.get_user())
+        json_ndc = {
+            "user": self.get_user(),
+            "order": self.get_order()
         }
         print(json_ndc)
         return json_ndc
