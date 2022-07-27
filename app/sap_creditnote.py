@@ -114,7 +114,7 @@ class SapCreditNote():
             "DocDate": order["date"],
             "DocDueDate": order["date"],
             "TaxDate": order["date"],
-            "CardCode": "C"+FederalTaxID,
+            "CardCode": FederalTaxID+"C",
             "DocCurrency": currency,
             "DocRate": 1,
             "SalesPersonCode": 4,
@@ -136,15 +136,14 @@ class SapCreditNote():
     def build_credit_note(self):
         print("user: ", self.get_user())
         json_ndc = {
-            "user": self.get_user(),
-            "order": self.get_order()
+            "User": self.get_user(),
+            "Order": self.get_order()
         }
         print(json_ndc)
         return json_ndc
 
     def send_credit_note(self):
-        # url = self.__data["sap_json"]["config"]["site_url"]
-        url = "https:www.test.com"
+        url = self.__data["sap_json"]["config"]["site_url"]
         try:
             response = requests.post(
                 url,

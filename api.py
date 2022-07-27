@@ -23,8 +23,6 @@ def post_sap(data: dict):
         else:
             json_data = SapCreditNote(data)
             data_converted = json_data.build_credit_note()
-            logging.info(
-                f"Data transformed order_id: {order_lp} data: {data_converted}")
             # enviar JSON de credit note a Sap
             request_document = json_data.send_credit_note()
     except JoinJsonSapError as ex:
