@@ -34,8 +34,8 @@ class SapCreditNote():
         )
         # dejare obtencion de cookies por si llegamos a necesitarlas
         # ya que lo solicitaba la documentacion
-        cookies_login = s.cookies.get_dict()
-        print(cookies_login)
+        # cookies_login = s.cookies.get_dict()
+        # print(cookies_login)
 
         # DocEntry debe ir entre parentesis
         DocEntry = order["boleta_sap"]["DocEntry"]
