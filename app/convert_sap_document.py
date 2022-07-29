@@ -196,7 +196,7 @@ class ConvertSapDocument():
             rut = FederalTaxID[:-1]
             digito_verificador = FederalTaxID[-1]
             FederalTaxID = rut + "-" + digito_verificador
-            
+
         if not order["extra_info"].get("currency"):
             currency = "CLP"
         else:
@@ -263,7 +263,7 @@ class ConvertSapDocument():
         for product in products:
             article = product["ItemCode"]
             response = requests.post(
-                f"https://sbo-wildbrands.cloudseidor.com:4300/Wildbrands/Integracion/ObtenerItems.xsjs?$select=ItemCode,ItemName,ForeignName&$filter=ItemCode eq '{article}'",
+                f"https://sbo-wildbrands.cloudseidor.com:4300/Wildbrands/Integracion/ObtenerItems.xsjs?$select=ItemCode,ItemName,ForeignName&$filter=ItemCode eq '{article}'",  # noqa
                 json=credentials
             )
             respose_article = response.json()
