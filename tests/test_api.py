@@ -30,6 +30,7 @@ class SapApiTestCase(unittest.TestCase):
                 "order": "test-1"
             },
             "sap_json": {
+                "type": "sap document",
                 "config": {
                     "type_document": "39"
                 }
@@ -62,6 +63,7 @@ class SapApiTestCase(unittest.TestCase):
                 "id": "test-1"
             },
             "sap_json": {
+                "type": "sap credit note",
                 "config": {
                     "type_document": "13"
                 }
@@ -80,7 +82,8 @@ class SapApiTestCase(unittest.TestCase):
             "status": "success",
             "type": "credit_note"
             }
-        result = client.post("/v1/generate_document", json=input_data)
+        result = client.post(
+            "/v1/generate_document/credit_note", json=input_data)
 
         assert result.status_code == 200
         assert result.json() == expected_ouput
@@ -95,6 +98,7 @@ class SapApiTestCase(unittest.TestCase):
                 "id": "test-1"
             },
             "sap_json": {
+                "type": "sap credit note",
                 "config": {
                     "type_document": "13"
                 }
@@ -107,6 +111,7 @@ class SapApiTestCase(unittest.TestCase):
         )
         # Caso 2:
         # hacemos la peticion y verificamos que el codigo de respuesta sea 500
-        result = client.post("/v1/generate_document", json=input_data)
+        result = client.post(
+            "/v1/generate_document/credit_note", json=input_data)
         assert result.status_code == 500
         assert result.json() == expected_ouput

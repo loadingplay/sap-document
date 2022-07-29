@@ -56,7 +56,6 @@ class SapCreditNote():
     def generate_document_lines(self):
         linenum = self.get_linenum()
         DocEntry = self.__data["order"]["extra_info"]["boleta_sap"]["DocEntry"]
-        products = self.__data["order"]["products"]
         document_line = []
         for item in linenum:
             document_line.append({
@@ -125,7 +124,7 @@ class SapCreditNote():
             "U_SEI_FOREF": str(order["extra_info"]["name"]),
             "U_SEI_FEREF": order["date"],
             "U_SEI_INREF": 33,  # 39 o 33 Dependiente de si es Factura o Boleta
-            "U_SEI_CREF": 1,  # 1 Anula documento de referencia - 2 Corrige texto documento de refencia - 3 Corrige montos		
+            "U_SEI_CREF": 1,  # 1 Anula documento de referencia - 2 Corrige texto documento de refencia 3 Corrige montos # noqa
             "U_SEI_CANAL": "CAN03",
             "U_SEI_ESTADOPAGO": "Pagado",
             "U_SEI_FEBOSID": "",
@@ -134,12 +133,10 @@ class SapCreditNote():
         return json_order
 
     def build_credit_note(self):
-        print("user: ", self.get_user())
         json_ndc = {
             "User": self.get_user(),
             "Order": self.get_order()
         }
-        print(json_ndc)
         return json_ndc
 
     def send_credit_note(self):
